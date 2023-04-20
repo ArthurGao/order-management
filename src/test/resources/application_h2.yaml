@@ -1,0 +1,24 @@
+h2:
+  console:
+    enabled: true
+
+spring:
+  application:
+    name: test-order-manager-service-h2
+  main:
+    banner-mode: "off"
+    # Allow the test configuration to override beans defined in the main application config.
+    # see https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.1-Release-Notes#bean-overriding
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: h2
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        format_sql: true

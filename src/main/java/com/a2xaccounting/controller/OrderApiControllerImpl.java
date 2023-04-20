@@ -27,11 +27,14 @@ import java.util.UUID;
 @Service
 public class OrderApiControllerImpl implements OrderApiDelegate {
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
+    private final OrderMapper orderMapper;
 
     @Autowired
-    private OrderMapper orderMapper;
+    public OrderApiControllerImpl(OrderService orderService, OrderMapper orderMapper) {
+        this.orderService = orderService;
+        this.orderMapper = orderMapper;
+    }
 
     /**
      * POST /order : Create an order

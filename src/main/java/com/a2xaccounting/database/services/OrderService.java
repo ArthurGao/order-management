@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,11 +32,17 @@ public class OrderService {
         this.orderMapper = orderMapper;
     }
 
+    /**
+     * Create an order
+     */
     public String createOrder(@NotNull OrderDTO orderDTO) {
         OrderEntity orderEntity = orderMapper.map(orderDTO);
         return orderRepository.save(orderEntity).getId().toString();
     }
 
+    /**
+     * Delete an order
+     */
     public void deleteOrder(@NotNull UUID id) {
         if (orderRepository.findById(id).isEmpty()) {
             throw new NotFoundException("Order not found with id " + id);
@@ -45,10 +50,16 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
+    /**
+     * Get order by id
+     */
     public Optional<OrderDTO> getOrderById(@NotNull UUID id) {
         return orderRepository.findById(id).map(orderMapper::map);
     }
 
+    /**
+     * Update an order
+     */
     public void updateOrder(@NotNull UUID id, @NotNull OrderDTO orderDTO) {
         OrderEntity orderToUpdate = orderRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Order not found with id " + id));
@@ -67,6 +78,9 @@ public class OrderService {
         orderRepository.save(orderToUpdate);
     }
 
+    /**
+     * Search orders by different search criteria and pagination
+     */
     public Page<OrderDTO> searchOrders(String transactionType, LocalDate transactionFrom, LocalDate transactionTo,
                                        String currencyCode, int page, int size) {
 

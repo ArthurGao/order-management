@@ -1,47 +1,30 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /console
-      settings:
-        web-allow-others: true
-        trace: false
-  datasource:
-    name: dataSource
-    platform: h2
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:subscription;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;
-    username: sa
-    password: sa
-
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: none
-    database-platform: org.hibernate.dialect.H2Dialect
-
-  application:
-    name: customer-tvdemand-api-service
-
   main:
     allow-bean-definition-overriding: true
-
-app:
-  countryCacheExpiryInHours: 240
-  countryCacheMaxSize: 300
-  openSearchQuerySize: 500
-  maxResultsSize: 10000
-  defaultScrollTimeoutInSeconds: 60
-
-  open-search-config:
-    host-url: http://localhost:9200
-
-  #This is fake public key for testing
-  security-config:
-    jwt-ecdh-public-key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEVs/o5+uQbTjL3chynL4wXgUg2R9q9UU8I5mEovUf86QZ7kOBIjJwqnzD1omageEHWwHdBO6B+dFabmdT9POxg==
-
-parrot:
-  metrics:
-    collection-group: DIRECT_API_SERVICE
-    metrics-push-frequency-in-seconds: 5
-    is-key-based-rest-api-monitoring-enabled: false
+  application:
+    name: test-order-manager-service
+  datasource:
+    url: "jdbc:mysql://${APP_MYSQL_HOST_URL:localhost}:${APP_MYSQL_PORT:3306}/test?zeroDateTimeBehavior=convertToNull"
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      auto-commit: true
+      connection-timeout: 30000
+      idle-timeout: 1000000
+      max-lifetime: 1000000
+      validation-timeout: 30000
+      connection-init-sql: "SELECT 1"
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+      pool-name: "COLLECTOR-FUTON_CRITIC"
+      maximum-pool-size: ${APP_MYSQL_CONNECTION_POOL_MAX_SIZE:10}
+      health-check-properties:
+        connectivityCheckTimeoutMs: 1000
+        expected99thPercentileMs: 10
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: none

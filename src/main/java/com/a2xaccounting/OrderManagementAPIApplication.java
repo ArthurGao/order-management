@@ -3,6 +3,7 @@ package com.a2xaccounting;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -13,6 +14,7 @@ import java.net.UnknownHostException;
 @SpringBootApplication
 @Log4j2
 @EnableJpaRepositories(basePackages = {"com.a2xaccounting.database"})
+@ConfigurationPropertiesScan
 public class OrderManagementAPIApplication {
 
   /**

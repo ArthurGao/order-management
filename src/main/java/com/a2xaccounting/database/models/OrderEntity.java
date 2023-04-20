@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "ORDERS", schema = "test")
+@Table(name = "orders")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

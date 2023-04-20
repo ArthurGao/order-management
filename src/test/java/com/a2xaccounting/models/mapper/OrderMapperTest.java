@@ -12,6 +12,9 @@ import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Unit test to test all mapper methods
+ */
 class OrderMapperTest extends AbstractTest {
 
     private static OrderMapper orderMapper;
@@ -36,7 +39,7 @@ class OrderMapperTest extends AbstractTest {
         OrderEntity orderEntity = createObject(OrderEntity.class);
         orderEntity.setTransactionType("REFUND");
         com.a2xaccounting.models.OrderDTO orderDTO = orderMapper.map(orderEntity);
-        assertThat(orderEntity.getAmount()).isEqualTo(orderDTO.getAmount());
+        assertThat(getRoundResult(orderEntity.getAmount())).isEqualTo(orderDTO.getAmount());
         assertThat(orderEntity.getDate()).isEqualTo(orderDTO.getDate());
         assertThat(orderEntity.getCurrencyCode()).isEqualTo(orderDTO.getCurrencyCode());
         assertThat(orderEntity.getTransactionType().toLowerCase(Locale.ROOT)).isEqualTo(orderDTO.getTransactionType().getValue().toLowerCase(Locale.ROOT));
@@ -57,7 +60,7 @@ class OrderMapperTest extends AbstractTest {
     void testRestToDTO() {
         OrderDto orderDto = createObject(OrderDto.class);
         OrderDTO orderDTO = orderMapper.map(orderDto);
-        assertThat(orderDTO.getAmount()).isEqualTo(orderDto.getAmount());
+        assertThat(orderDTO.getAmount()).isEqualTo(getRoundResult(orderDto.getAmount()));
         assertThat(orderDTO.getDate()).isEqualTo(orderDto.getDate());
         assertThat(orderDTO.getCurrencyCode()).isEqualTo(orderDto.getCurrencyCode());
         assertThat(orderDTO.getTransactionType().getValue()).isEqualTo(orderDto.getTransactionType().getValue());
