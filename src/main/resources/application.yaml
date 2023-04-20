@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: order-manager-api-service
+  # disable default error message formatting (and redirect to custom exception handler)
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  datasource:
+    url: "jdbc:mysql://${APP_MYSQL_HOST_URL:localhost}:${APP_MYSQL_PORT:3306}/test?zeroDateTimeBehavior=convertToNull"
+    username: ${APP_MYSQL_USER_NAME:test}
+    password: ${APP_MYSQL_PASSWORD:testpassword}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: SpringBootHikariCP   #pool name
+      maximum-pool-size: 50          #maximum pool size
+      minimum-idle: 3                #minimum number of idle connections maintained by HikariCP in a connection pool
+      max-lifetime: 72000000         # maximum lifetime in milliseconds of a connection in the pool after it is closed.
+      connection-timeout: 120000     #maximum number of milliseconds that a client will wait for a connection
+      idle-timeout: 9000000          #maximum idle time for connection
+      validation-timeout: 100000
+      connection-test-query: SELECT 1
+      data-source-properties:
+        cache-prep-stmts: true
+        prep-stmt-cache-size: 300
+        prep-stmt-cache-sql-limit: 2480
+        databaseTerm: SCHEMA
+      health-check-properties:
+        connectivity-check-timeout-ms: 1000
+        expected-99th-percentile-ms: 10
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+

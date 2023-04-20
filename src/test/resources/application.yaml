@@ -1,0 +1,47 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        web-allow-others: true
+        trace: false
+  datasource:
+    name: dataSource
+    platform: h2
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:subscription;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;
+    username: sa
+    password: sa
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  application:
+    name: customer-tvdemand-api-service
+
+  main:
+    allow-bean-definition-overriding: true
+
+app:
+  countryCacheExpiryInHours: 240
+  countryCacheMaxSize: 300
+  openSearchQuerySize: 500
+  maxResultsSize: 10000
+  defaultScrollTimeoutInSeconds: 60
+
+  open-search-config:
+    host-url: http://localhost:9200
+
+  #This is fake public key for testing
+  security-config:
+    jwt-ecdh-public-key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEVs/o5+uQbTjL3chynL4wXgUg2R9q9UU8I5mEovUf86QZ7kOBIjJwqnzD1omageEHWwHdBO6B+dFabmdT9POxg==
+
+parrot:
+  metrics:
+    collection-group: DIRECT_API_SERVICE
+    metrics-push-frequency-in-seconds: 5
+    is-key-based-rest-api-monitoring-enabled: false

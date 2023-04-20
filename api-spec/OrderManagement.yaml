@@ -1,0 +1,401 @@
+openapi: 3.0.0
+x-stoplight:
+  id: hn1k3mx2cs882
+info:
+  title: OrderManagement
+  version: '1.0'
+  description: RESTful CRUD Order API for A2x accounting
+servers:
+  - url: 'http://localhost:3000'
+    description: url
+paths:
+  '/order/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get User Info by User ID
+      tags:
+        - order-management
+      responses:
+        '200':
+          description: Order Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example 1:
+                  value:
+                    errorCode: 400
+                    errorMessage: Bad request
+        '404':
+          description: Order Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example 1:
+                  value:
+                    errorCode: 404
+                    errorMessage: Not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example 1:
+                  value:
+                    errorCode: 500
+                    errorMessage: Internal Server Error
+      operationId: get-order-by-id
+      description: Retrieve the information of the order with the matching order ID.
+    put:
+      summary: Update an order
+      operationId: update-order
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example 1:
+                  value:
+                    errorCode: 400
+                    errorMessage: Bad request
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example 1:
+                  value:
+                    errorCode: 404
+                    errorMessage: Not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example 1:
+                  value:
+                    errorCode: 500
+                    errorMessage: Internal Server Error
+      description: Update an existing order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderToUpdate'
+
+      tags:
+        - order-management
+    delete:
+      summary: Delete an order
+      operationId: delete-order-by-id
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example 1:
+                  value:
+                    errorCode: 400
+                    errorMessage: Bad request
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example 1:
+                  value:
+                    errorCode: 404
+                    errorMessage: Not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example 1:
+                  value:
+                    errorCode: 500
+                    errorMessage: Internal Server Error
+      description: Delete an existing order by id
+      tags:
+        - order-management
+  /order:
+    get:
+      summary: Search order(s) by criteria
+      tags:
+        - order-management
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderListResponse'
+
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: search-order
+      description: Search order(s) by criteria and page
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PageInfo'
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: dateFrom
+          description: Transaction date from
+        - schema:
+            type: string
+          in: query
+          name: dateTo
+          description: Transaction date to
+        - schema:
+            type: string
+          in: query
+          name: transactionType
+          description: Transaction type
+        - schema:
+            type: string
+          in: query
+          name: currencyCode
+          description: Currency code
+    parameters: []
+    post:
+      summary: Create an order
+      operationId: create-order
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateRepsonse'
+              examples: { }
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      description: Create an order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      tags:
+        - order-management
+components:
+  schemas:
+    Order:
+      title: Order
+      x-stoplight:
+        id: 6eb82f1f971c8
+      type: object
+      description: An order model
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the given order.
+          format: uuid
+        date:
+          type: string
+          x-stoplight:
+            id: aj8fue8yznsns
+          format: date
+          description: The date an order occurred.
+        amount:
+          type: number
+          x-stoplight:
+            id: fm5mpu34tcv64
+          format: double
+          description: The cost of the order.
+          minimum: 0
+        currencyCode:
+          type: string
+          x-stoplight:
+            id: lbx98jvqoe09m
+          description: The ISO 4217 currency code.
+        transactionType:
+          $ref: '#/components/schemas/TransactionType'
+          x-stoplight:
+            id: 7a3gy1fl9w4e6
+          description: Sale or Refund.
+      required:
+        - date
+        - amount
+        - currencyCode
+        - transactionType
+    OrderResponse:
+      $ref: '#/components/schemas/Order'
+      x-stoplight:
+        id: fybyesv46uom7
+      description: Response for get one order
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          date: '2019-08-24'
+          amount: 100.2
+          currencyCode: NZD
+          transactionType: Sale
+    ErrorResponse:
+      title: ErrorResponse
+      x-stoplight:
+        id: 76yvl8jzjjb2k
+      type: object
+      description: Response with error code and error message
+      properties:
+        errorCode:
+          type: integer
+          x-stoplight:
+            id: ds4n6vxu339a5
+          example: 404
+        errorMessage:
+          type: string
+          x-stoplight:
+            id: cb7dunjnvs8rl
+    TransactionType:
+      title: TransactionType
+      x-stoplight:
+        id: lef9d0e2ynv6f
+      type: string
+      enum:
+        - Sale
+        - Refund
+      default: Sale
+      example: Sale
+      description: 'TransactionType: Sale or Refund'
+    PageInfo:
+      title: PageInfo
+      x-stoplight:
+        id: i7i0hxzwxp469
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          x-stoplight:
+            id: g7lsg0wcvjq8r
+        pageSize:
+          type: integer
+          x-stoplight:
+            id: 5dsozg5vxu4nx
+        total:
+          type: integer
+          x-stoplight:
+            id: glajxwk533rnz
+    OrderListResponse:
+      title: OrderListResponse
+      x-stoplight:
+        id: a3yw4nwzj5tgz
+      type: object
+      description: Response constains order list
+      properties:
+        results:
+          type: array
+          x-stoplight:
+            id: bsolruqxm4yeq
+          items:
+            $ref: '#/components/schemas/Order'
+            x-stoplight:
+              id: qcpysdu1yzq4n
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+          x-stoplight:
+            id: cm16hqq6aml75
+    CreateRepsonse:
+      title: CreateRepsonse
+      x-stoplight:
+        id: aontmnm0udzsn
+      type: object
+      properties:
+        id:
+          type: string
+      x-examples: { }
+    OrderToUpdate:
+      title: OrderToUpdate
+      x-stoplight:
+        id: 6ap9dn81tuwgb
+      type: object
+      properties:
+        date:
+          type: string
+          x-stoplight:
+            id: urdmgloc4fe7s
+          format: date
+        amount:
+          type: number
+          x-stoplight:
+            id: xjcfae25pvtdj
+          format: double
+        currencyCode:
+          type: string
+          x-stoplight:
+            id: bjztted79ctps
+        transactionType:
+          $ref: '#/components/schemas/TransactionType'
+          x-stoplight:
+            id: ay0f1d95emx4w
