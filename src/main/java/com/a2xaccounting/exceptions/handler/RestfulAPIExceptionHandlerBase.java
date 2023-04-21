@@ -13,6 +13,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintDefinitionException;
 import javax.validation.ConstraintViolationException;
 
 @Log4j2
@@ -39,7 +40,8 @@ public class RestfulAPIExceptionHandlerBase extends ResponseEntityExceptionHandl
         .body(createErrorResponse(DefaultAPIErrorCodes.INTERNAL_ERROR));
   }
 
-  @ExceptionHandler({MethodArgumentTypeMismatchException.class, ConstraintViolationException.class, IllegalArgumentException.class})
+  @ExceptionHandler({ConstraintDefinitionException.class, MethodArgumentTypeMismatchException.class,
+          ConstraintViolationException.class, IllegalArgumentException.class})
   private ResponseEntity handleInvalidArgument(
       RuntimeException ex, WebRequest request) {
     log.warn("Bad request for request {} due to {}.", request.getContextPath(),

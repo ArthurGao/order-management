@@ -49,14 +49,6 @@ public class OrderApiControllerImpl implements OrderApiDelegate {
      */
     @Override
     public ResponseEntity<CreateRepsonseDto> createOrder(OrderDto orderDto) {
-        if (orderDto.getDate().isAfter(LocalDate.now())) {
-            throw new BadRequestException("Date cannot be in the future");
-        }
-        try {
-            Currency.getInstance(orderDto.getCurrencyCode());
-        } catch (IllegalArgumentException e) {
-            throw new BadRequestException("Currency code is not valid");
-        }
         String orderId = orderService.createOrder(orderMapper.map(orderDto));
         CreateRepsonseDto createRepsonseDto = new CreateRepsonseDto();
         createRepsonseDto.setId(orderId);
@@ -160,9 +152,6 @@ public class OrderApiControllerImpl implements OrderApiDelegate {
     @Override
     public ResponseEntity<Void> updateOrder(String id,
                                             OrderToUpdateDto orderDto) {
-        if (orderDto.getDate() != null && orderDto.getDate().isAfter(LocalDate.now())) {
-            throw new BadRequestException("Date cannot be in the future");
-        }
         if (StringUtils.isNotEmpty(orderDto.getCurrencyCode())) {
             try {
                 Currency.getInstance(orderDto.getCurrencyCode());

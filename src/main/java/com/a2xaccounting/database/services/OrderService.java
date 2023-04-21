@@ -5,6 +5,8 @@ import com.a2xaccounting.database.repository.OrderRepository;
 import com.a2xaccounting.exceptions.NotFoundException;
 import com.a2xaccounting.models.OrderDTO;
 import com.a2xaccounting.models.mapper.OrderMapper;
+import com.a2xaccounting.validator.IsoCurrencyCode;
+import com.a2xaccounting.validator.OrderDate;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Locale;
@@ -35,7 +38,7 @@ public class OrderService {
     /**
      * Create an order
      */
-    public String createOrder(@NotNull OrderDTO orderDTO) {
+    public String createOrder(@Valid @NotNull OrderDTO orderDTO) {
         OrderEntity orderEntity = orderMapper.map(orderDTO);
         return orderRepository.save(orderEntity).getId().toString();
     }
@@ -60,7 +63,7 @@ public class OrderService {
     /**
      * Update an order
      */
-    public void updateOrder(@NotNull UUID id, @NotNull OrderDTO orderDTO) {
+    public void updateOrder(@NotNull UUID id,@Valid @NotNull OrderDTO orderDTO) {
         OrderEntity orderToUpdate = orderRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Order not found with id " + id));
         if (orderDTO.getTransactionType() != null) {
@@ -81,8 +84,8 @@ public class OrderService {
     /**
      * Search orders by different search criteria and pagination
      */
-    public Page<OrderDTO> searchOrders(String transactionType, LocalDate transactionFrom, LocalDate transactionTo,
-                                       String currencyCode, int page, int size) {
+    public Page<OrderDTO> searchOrders(String transactionType, @OrderDate LocalDate transactionFrom, @OrderDate LocalDate transactionTo,
+                                       @Valid @IsoCurrencyCode  String currencyCode, int page, int size) {
 
         return orderRepository.searchOrders(transactionType, transactionFrom, transactionTo, currencyCode, PageRequest.of(page, size))
                 .map(orderMapper::map);
