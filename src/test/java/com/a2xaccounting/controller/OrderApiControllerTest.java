@@ -36,6 +36,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ *  This is a test class for OrderApiControllerImpl. It main purpose is to test logic of controller
+ *  It uses Mockito to mock the service layer
+ *  It uses SpringBootTest to load the application context
+ */
+//TODO: add more test cases to cover all the endpoints
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @DirtiesContext
 @AutoConfigureMockMvc

@@ -26,7 +26,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  *  Tests to test all service methods with DB (H2 database)
+ *  It uses @DataJpaTest which will create an in-memory database and configure Spring Data JPA
  */
+//TODO: add more test cases to cover all the service methods
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @Import({OrderService.class, OrderMapperImpl.class})
@@ -116,6 +118,15 @@ class OrderServiceTest extends AbstractTest {
         assertThat(actualOrderDTO.getTotalElements()).isEqualTo(1);
         assertThat(actualOrderDTO.getContent()).hasSize(1);
         validateOrder(actualOrderDTO.getContent().get(0), expectedOrderDTO);
+    }
+
+    @Test
+    @Sql({"classpath:sql/table.sql", "classpath:sql/init_table_data.sql"})
+    void testSearchOrder_givenOnlyPage_returnOrder() {
+        Page<OrderDTO> actualOrderDTO = orderService.searchOrders
+                (null, null, null, null, 0, 2);
+        assertThat(actualOrderDTO.getTotalElements()).isEqualTo(2);
+        assertThat(actualOrderDTO.getContent()).hasSize(2);
     }
 
 }

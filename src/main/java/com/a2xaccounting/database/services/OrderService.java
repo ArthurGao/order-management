@@ -83,6 +83,8 @@ public class OrderService {
 
     /**
      * Search orders by different search criteria and pagination
+     * transactionType/transactionFrom/transactionTo/currencyCode are all optional. If it is provided will be as a where clause to the query
+     * page and size are used for pagination
      */
     public Page<OrderDTO> searchOrders(String transactionType, @OrderDate LocalDate transactionFrom, @OrderDate LocalDate transactionTo,
                                        @Valid @IsoCurrencyCode  String currencyCode, int page, int size) {

@@ -21,6 +21,21 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ *    This is an integration test that tests the whole circle of the API.
+ *    It creates an order, gets it, updates it and search it by some criteria. Then delete it.
+ *    It uses a real database and a real server.
+ *    It uses the MySQLExtension to create a real database and a real server.
+ *    It uses the @Sql annotation to load the data from the sql file.
+ *    It uses the @DynamicPropertySource annotation to set the database properties.
+ *    It uses the @TestInstance annotation to set the test instance to PER_CLASS.
+ *    It uses the @DirtiesContext annotation to set the context to dirty.
+ *    It uses the @SpringBootTest annotation to load the spring context.
+ *    It uses the @AutoConfigureTestDatabase annotation to set the database to NONE.
+ *    It uses the @AutoConfigureMockMvc annotation to load the MockMvc.
+ *    It test some Http return codes in different scenarios(exception).
+ */
+//TODO:Add more tests to test the whole circle of the API. (e.g. test the exception scenarios)
 @ExtendWith({SpringExtension.class, MySQLExtension.class})
 @AutoConfigureMockMvc
 @WebAppConfiguration
