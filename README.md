@@ -126,6 +126,51 @@ mvn test
   ```
 * **9 integration test cases totally**
 
+6.  **Docker image**
+  **Run the docker image**
+  ```
+     docker-compose up --build
+   ```
+  MySQL database and SpringBoot application launched then.
+
+7. ** Curl command**
+* **Add order**
+    * curl -X POST "http://localhost:3000/a2x/order" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"amount\": 100.2, \"currencyCode\": \"NZD\", \"date\": \"2019-08-24\", \"transactionType\": \"Sale\"}"
+    * Response:
+    ```json
+    {
+        "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08"
+    }
+    ```
+* **Get order by id**
+    * curl --location 'http://localhost:8080/order/f9455f09-bbaa-491d-9040-4ac1d70ef0b8'
+    * Response:
+        ```json
+        {
+            "id": "f9455f09-bbaa-491d-9040-4ac1d70ef0b8",
+            "date": "2019-08-24",
+            "amount": 100.2,
+            "currencyCode": "NZD",
+            "transactionType": "Sale"
+        }
+        ```  
+* **Search order**
+  * curl --location --request GET 'http://localhost:8080/order/' \
+    --header 'Content-Type: application/json' \
+    --data '{
+    "pageSize": 3,
+    "pageNumber": 0
+    }'
+* **Update order by id**
+  * curl --location --request PUT 'http://localhost:8080/order/f9455f09-bbaa-491d-9040-4ac1d70ef0b8' \
+    --header 'Content-Type: application/json' \
+    --data '{
+    "amount": 20.23
+    }'
+
+* **Delete order by id**
+  * curl --location --request DELETE 'http://localhost:8080/order/f9455f09-bbaa-491d-9040-4ac1d70ef0b8'
+
 # References
 https://arthurgao.stoplight.io/docs/ordermanagement/branches/main/hn1k3mx2cs882-order-management
 https://www.openapis.org/

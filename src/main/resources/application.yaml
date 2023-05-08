@@ -11,7 +11,7 @@ spring:
     resources:
       add-mappings: false
   datasource:
-    url: "jdbc:mysql://${APP_MYSQL_HOST_URL:localhost}:${APP_MYSQL_PORT:3306}/test?zeroDateTimeBehavior=convertToNull"
+    url: "jdbc:mysql://${APP_MYSQL_HOST_URL}:3306/test?zeroDateTimeBehavior=convertToNull"
     username: ${APP_MYSQL_USER_NAME:test}
     password: ${APP_MYSQL_PASSWORD:testpassword}
     driver-class-name: com.mysql.cj.jdbc.Driver
